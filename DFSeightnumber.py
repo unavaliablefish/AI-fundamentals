@@ -12,5 +12,4 @@ def is_solvable(initial_state):
     return 1 if inv_count % 2 == 0 else 0
 
 initial_state = input().strip()
-
 print(is_solvable(initial_state))
