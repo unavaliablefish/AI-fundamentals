@@ -8,11 +8,9 @@ def dijkstra(n, m, edges):
     distance = [float('inf')] * (n + 1)
     distance[1] = 0
     visited = set()
-
     while len(visited) < n:
         u = min((i for i in range(1, n + 1) if i not in visited), key=lambda i: distance[i])
         visited.add(u)
-
         for v, w in graph[u]:
             if v not in visited and distance[u] + w < distance[v]:
                 distance[v] = distance[u] + w
