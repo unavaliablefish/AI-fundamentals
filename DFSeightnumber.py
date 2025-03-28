@@ -1,15 +1,30 @@
-def inversion_number(arr):
-    inv_count = 0
-    for i in range(len(arr)):
-        for j in range(i + 1, len(arr)):
-            if arr[i] != 'x' and arr[j] != 'x' and arr[i] > arr[j]:
-                inv_count += 1
-    return inv_count
+def dfs(start, end, max_depth):
+    start = ''.join(map(str, start))
+    end = ''.join(map(str, end))
+    if start == end:
+        return 1
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    visited = set([start])
 
-def is_solvable(initial_state):
-    state = initial_state.split()
-    inv_count = inversion_number(state)
-    return 1 if inv_count % 2 == 0 else 0
+    def dfs_recursive(state, steps):
+        if steps > max_depth:
+            return 0
+        zero_index = state.index('0')
+        x, y = zero_index // 3, zero_index % 3
+        for dx, dy in directions:
+            nx, ny = x + dx, y + dy
+            if 0 <= nx < 3 and 0 <= ny < 3:
+                new_index = nx * 3 + ny
+                new_state = list(state)
+                new_state[zero_index], new_state[new_index] = new_state[new_index], new_state[zero_index]
+                new_state = ''.join(new_state)
+                if new_state == end:
+                    return 1
+                if new_state not in visited:
+                    visited.add(new_state)
+                    if dfs_recursive(new_state, steps + 1):
+                        return 1
+                    visited.remove(new_state)
+        return 0
 
-initial_state = input().strip()
-print(is_solvable(initial_state))
+    return dfs_recursive(start, 0)
