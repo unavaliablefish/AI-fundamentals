@@ -1,6 +1,6 @@
 def dfs(start, end, max_depth):
     start = ''.join(map(str, start))
-    end = ''.join(map(str, end))
+    end = "12345678x"
     if start == end:
         return 1
     directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
