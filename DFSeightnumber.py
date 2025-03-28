@@ -1,6 +1,6 @@
 def dfs(start, end, max_depth):
-    start = ''.join(map(str, start))
-    end = "12345678x"
+    start = ''.join(start)
+    end = ''.join(end)
     if start == end:
         return 1
     directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
@@ -9,7 +9,7 @@ def dfs(start, end, max_depth):
     def dfs_recursive(state, steps):
         if steps > max_depth:
             return 0
-        zero_index = state.index('0')
+        zero_index = state.index('x')
         x, y = zero_index // 3, zero_index % 3
         for dx, dy in directions:
             nx, ny = x + dx, y + dy
@@ -28,3 +28,13 @@ def dfs(start, end, max_depth):
         return 0
 
     return dfs_recursive(start, 0)
+
+
+
+start_state = input().split()
+goal_state = ['1', '2', '3', '4', '5', '6', '7', '8', 'x']
+max_depth = 30
+result = dfs(start_state, goal_state, max_depth)
+print(result)
+
+
