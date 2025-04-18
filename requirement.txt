@@ -2,3 +2,5 @@ matplotlib==3.5.1
 heapq
 collections
 time
+sys
+numpy
