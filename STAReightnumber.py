@@ -1,4 +1,5 @@
 import heapq
+
 directions = [(-1, 0, 'u'), (1, 0, 'd'), (0, -1, 'l'), (0, 1, 'r')]
 
 def manhattan_distance(state):
@@ -10,16 +11,34 @@ def manhattan_distance(state):
         distance += abs(i // 3 - num // 3) + abs(i % 3 - num % 3)
     return distance
 
+def inversion_number(state):
+    inv_count = 0
+    state_list = [char for char in state if char != 'x']
+    for i in range(len(state_list)):
+        for j in range(i + 1, len(state_list)):
+            if state_list[i] > state_list[j]:
+                inv_count += 1
+    return inv_count
+
+def is_solvable(state):
+    return inversion_number(state) % 2 == 0
+
 def a_star(initial_state):
-    target_state = "12345678x"    
-    initial_str = ''.join(initial_state.split())     
+    if not is_solvable(initial_state.replace(" ", "")):
+        return "unsolvable"
+
+    target_state = "12345678x"
+    initial_str = ''.join(initial_state.split())
+    
     priority_queue = [(manhattan_distance(initial_str), 0, initial_str, '')] 
     visited = set([initial_str])
+    
     while priority_queue:
         _, steps, current_state, path = heapq.heappop(priority_queue)
         
         if current_state == target_state:
             return path
+        
         x_index = current_state.index('x')
         x_row, x_col = divmod(x_index, 3)
         
@@ -34,7 +53,7 @@ def a_star(initial_state):
                 if new_state not in visited:
                     visited.add(new_state)
                     heapq.heappush(priority_queue, (manhattan_distance(new_state) + steps + 1, steps + 1, new_state, path + action))
-       
+    
     return "unsolvable"
 
 initial_state = input().strip()
